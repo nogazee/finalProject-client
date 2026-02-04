@@ -1,0 +1,14 @@
+.actions {
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.actions button {
+    width: 100%;
+}
+
+.approve-btn {
+    margin-bottom: 0.5rem;
+}

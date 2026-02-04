@@ -1,0 +1,23 @@
+.pagination {
+  display: flex;
+  align-items: baseline;
+}
+
+.pagination p {
+  margin: 0.5rem;
+}
+
+.pagination button {
+  padding: 0.3em 0.6em;
+}
+
+.pagination button:disabled {
+  border: none;
+  cursor: default;
+}
+
+@media (prefers-color-scheme: light) {
+  .pagination button:disabled {
+    color: rgba(0, 0, 0, 0.3);
+  }
+}

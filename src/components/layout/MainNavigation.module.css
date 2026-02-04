@@ -1,0 +1,116 @@
+.header {
+  flex-shrink: 0;
+  direction: rtl;
+  width: 100%;
+  height: 5rem;
+  background-image: linear-gradient(to right, #646cff40, #ffffff1a);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo div {
+  font-size: 2rem;
+  color: white;
+  font-weight: bold;
+}
+
+.logo {
+  margin-right: 5%;
+}
+
+.header nav {
+  height: fit-content;
+  margin-left: 5%;
+}
+
+.header ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: baseline;
+}
+
+.header ul li a:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.header ul li a {
+  font-weight: bold;
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 0.6em 1.2em;
+  border-radius: 4px;
+}
+
+.header ul li button {
+  background-color: transparent;
+  border: 1px solid white;
+  font-weight: bold;
+}
+
+.header ul li button {
+  transition: background-color 0.25s;
+}
+
+.header ul li button:hover {
+  background-color: #646cff80;
+}
+
+.logoutbtn {
+  margin: 0 1rem;
+}
+
+.dropdown {
+  position: relative;
+  margin: 0 1rem;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  width: 100%;
+  text-align: left;
+  background-color: rgb(36, 36, 36);
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header ul li .dropdown-content a {
+  font-size: smaller;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+@media (prefers-color-scheme: light) {
+  .header {
+    background-image: linear-gradient(to right, #535bf2, #747bff);
+  }
+
+  .header ul li button {
+    color: white;
+  }
+
+  .header ul li button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .header ul li a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .dropdown-content {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .header ul li .dropdown-content a {
+    color: #1a242b;
+  }
+}

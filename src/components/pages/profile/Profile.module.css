@@ -1,0 +1,24 @@
+.card {
+  width: 40%;
+  margin: 0 auto;
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile h1 {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.actions {
+  align-self: center;
+}
+
+.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none;
+}

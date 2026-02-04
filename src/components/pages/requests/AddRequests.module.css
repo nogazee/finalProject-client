@@ -1,0 +1,63 @@
+.backdrop {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.new-request {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.new-request h1 {
+  font-size: 2rem;
+}
+
+.control {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  display: block;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.control select {
+  direction: rtl;
+  font: inherit;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  width: 100%;
+  padding: 0.25rem;
+  box-sizing: border-box;
+}
+
+.control select:focus {
+  outline: 1px solid #646cff;
+}
+
+.actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (prefers-color-scheme: light) {
+  .control label {
+    color: #1a242b;
+  }
+  .control select {
+    background-color: #2424241a;
+    color: #1a242b;
+  }
+}

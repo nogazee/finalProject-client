@@ -1,0 +1,62 @@
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  display: block;
+  color: white;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.control input {
+  font: inherit;
+  color: white;
+  background-color: #ffffff1a;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  width: 100%;
+  padding: 0.25rem;
+  box-sizing: border-box;
+}
+
+.control input:focus,
+.control input:focus-visible {
+  outline: 1px solid #646cff;
+}
+
+.invalid input {
+  border-bottom: 1px solid #cb4951;
+}
+
+.invalid input:focus {
+  background-color: #ffffff1a;
+  outline: 1px solid #cb4951;
+  border-bottom: none;
+}
+
+.error-text {
+  margin: 0;
+  color: #cb4951;
+}
+
+@media (prefers-color-scheme: light) {
+  .control label {
+    color: #1a242b;
+  }
+  .control input {
+    background-color: #2424241a;
+    color: #1a242b;
+  }
+  .invalid input {
+    background-color: #2424241a;
+    border-bottom: 1px solid #ba3035;
+  }
+  .invalid input:focus {
+    background-color: #2424241a;
+    outline: 1px solid #ba3035;
+  }
+  .error-text {
+    color: #ba3035;
+  }
+}

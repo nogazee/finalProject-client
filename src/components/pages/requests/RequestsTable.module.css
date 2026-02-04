@@ -1,0 +1,63 @@
+.card {
+  width: 60%;
+}
+
+.wide {
+  width: 75%;
+}
+
+.card table {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  border-bottom: 2px solid transparent;
+  table-layout: fixed;
+}
+
+.card table tr {
+  border-bottom: 2px solid #ffffff1a;
+}
+
+.card table tr:hover {
+  background-color: #ffffff1a;
+}
+
+.card table tr:last-child {
+  border-bottom: 2px solid transparent;
+}
+
+.card table tr th,
+.card table tr td {
+  text-align: left;
+  padding: 16px;
+}
+
+table thead tr:first-child th:first-child {
+  border-top-left-radius: 8px;
+}
+
+table thead tr:first-child th:last-child {
+  border-top-right-radius: 8px;
+}
+
+table tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 8px;
+}
+
+table tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 8px;
+}
+
+.btn {
+    margin: 1rem;
+}
+
+@media (prefers-color-scheme: light) {
+  .card table tr {
+    border-bottom: 2px solid #2424241a;
+  }
+
+  .card table tr:hover {
+    background-color: #2424241a;
+  }
+}
