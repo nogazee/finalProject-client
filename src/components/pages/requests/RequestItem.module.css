@@ -1,0 +1,37 @@
+.status div {
+  width: fit-content;
+  padding: 0.2rem;
+  border-radius: 5px;
+}
+
+.pending {
+  color: slateblue;
+  background-color: rgba(105, 90, 205, 0.2);
+}
+
+.approved {
+  color: mediumseagreen;
+  background-color: rgba(60, 179, 114, 0.2);
+}
+
+.rejected {
+  color: indianred;
+  background-color: rgba(205, 92, 92, 0.2);
+}
+
+@media (prefers-color-scheme: light) {
+  .pending {
+    color: darkslateblue;
+    background-color: rgba(71, 61, 139, 0.2);
+  }
+
+  .approved {
+    color: seagreen;
+    background-color: rgba(46, 139, 86, 0.2);
+  }
+
+  .rejected {
+    color: darkred;
+    background-color: rgba(139, 0, 0, 0.2);
+  }
+}

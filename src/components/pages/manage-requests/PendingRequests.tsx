@@ -1,19 +1,23 @@
 import { useState, useEffect, type ChangeEvent } from "react";
+import { useSearchParams } from "react-router-dom";
 import RequestsTable from "../requests/RequestsTable";
 import classes from "./PendingRequests.module.css";
 
 const PendingRequests = () => {
-  const baseFilters = "&status=PENDING";
-  const [filters, setFilters] = useState(baseFilters);
   const [requestType, setRequsetType] = useState("");
+  const [params, setParams] = useSearchParams();
 
   const typeChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
     setRequsetType(event.target.value);
   };
 
   useEffect(() => {
-    setFilters(
-      baseFilters + `${requestType === "" ? "" : "&type=" + requestType}`,
+    setParams(
+      (prevParams) => {
+        prevParams.set("type", requestType);
+        return prevParams;
+      },
+      { replace: true },
     );
   }, [requestType]);
 
@@ -32,7 +36,11 @@ const PendingRequests = () => {
           <option value="טופס חתימה">בקשת טופס חתימה על שו"ס</option>
         </select>
       </div>
-      <RequestsTable manage={true} resultsPerPage={50} filters={filters} />
+      <RequestsTable
+        manage={true}
+        resultsPerPage={50}
+        filters={"&" + params.toString() + "&status=PENDING"}
+      />
     </>
   );
 };

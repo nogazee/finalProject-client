@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import RequestsTable from "../requests/RequestsTable";
 import DateRange from "../../UI/DateRange";
 
 const RequestsHistory = () => {
-  const baseFilters = "&status=APPROVED&status=REJECTED";
-
-  const [filters, setFilters] = useState(baseFilters);
+  const [params, setParams] = useSearchParams();
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   useEffect(() => {
-    setFilters(
-      baseFilters +
-        `${startDate && endDate ? "&start_date=" + startDate.toLocaleString("en-US") + "&end_date=" + endDate.toLocaleString("en-US") : ""}`,
+    setParams(
+      (prevParams) => {
+        if (startDate && endDate) {
+          prevParams.set("start_date", startDate.toLocaleDateString("en-US"));
+          prevParams.set("end_date", endDate.toLocaleDateString("en-US"));
+        } else if (startDate === null && endDate === null) {
+          prevParams.set("start_date", "");
+          prevParams.set("end_date", "");
+        }
+        return prevParams;
+      },
+      { replace: true },
     );
   }, [startDate, endDate]);
 
@@ -25,7 +33,11 @@ const RequestsHistory = () => {
   return (
     <>
       <DateRange startDate={startDate} endDate={endDate} onChange={onChange} />
-      <RequestsTable manage={true} resultsPerPage={50} filters={filters} />
+      <RequestsTable
+        manage={true}
+        resultsPerPage={50}
+        filters={"&" + params.toString() + "&status=APPROVED&status=REJECTED"}
+      />
     </>
   );
 };

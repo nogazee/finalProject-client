@@ -15,6 +15,7 @@ const Backdrop: React.FC<{ onClick: () => void }> = (props) => {
 
 const RejectRequest: React.FC<{
   onSubmit: (rejectionComment: string) => void;
+  error: string | null;
 }> = (props) => {
   const {
     value: rejectionCommentValue,
@@ -49,6 +50,7 @@ const RejectRequest: React.FC<{
           errorMessage="Rejection comment is required"
         />
         <div className={classes.actions}>
+          {props.error && <p>{props.error}</p>}
           <Button onClick={submitHandler}>Submit</Button>
         </div>
       </form>
@@ -61,6 +63,7 @@ const portalElement: HTMLElement = document.getElementById("overlays")!;
 const RejectRequestOverlay: React.FC<{
   onSubmit: (rejectionComment: string) => void;
   closeOverlay: () => void;
+  error: string | null;
 }> = (props) => {
   return (
     <>
@@ -69,7 +72,7 @@ const RejectRequestOverlay: React.FC<{
         portalElement,
       )}
       {ReactDOM.createPortal(
-        <RejectRequest onSubmit={props.onSubmit} />,
+        <RejectRequest onSubmit={props.onSubmit} error={props.error} />,
         portalElement,
       )}
     </>

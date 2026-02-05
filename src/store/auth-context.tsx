@@ -5,7 +5,6 @@ import React, {
   useCallback,
   type PropsWithChildren,
 } from "react";
-import { useNavigate } from "react-router-dom";
 import type IUser from "../types/userType";
 
 let logoutTimer: ReturnType<typeof setTimeout>;
@@ -55,7 +54,6 @@ const retrieveStoredToken = () => {
 };
 
 export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
-  const navigate = useNavigate();
   const tokenData = retrieveStoredToken();
   let initialRole: "USER" | "ADMIN" = "USER";
   let initialToken;
@@ -76,8 +74,6 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
 
-    navigate("/login");
-    
     if (logoutTimer) {
       clearTimeout(logoutTimer);
     }

@@ -9,6 +9,7 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
   const authCtx = useContext(AuthContext);
 
   const [rejectReqDisplay, setRejectReqDisplay] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const changeDisplayHandler = () => {
     setRejectReqDisplay((prevState: boolean) => !prevState);
@@ -18,6 +19,10 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
     const { data, error } = await changeReqStatus(authCtx.token, props.reqId, {
       status: "APPROVED",
     });
+
+    if (error) {
+      setError(error);
+    }
   };
 
   const rejectClickHandler = async () => {
@@ -29,7 +34,7 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
       status: "REJECTED",
       comment: rejectionComment,
     });
-    
+
     if (!error) {
       changeDisplayHandler();
     }
@@ -37,7 +42,13 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
 
   return (
     <>
-      {rejectReqDisplay && <RejectRequestOverlay onSubmit={submitHandler} closeOverlay={changeDisplayHandler} />}
+      {rejectReqDisplay && (
+        <RejectRequestOverlay
+          onSubmit={submitHandler}
+          closeOverlay={changeDisplayHandler}
+          error={error}
+        />
+      )}
       <div className={classes.actions}>
         <Button
           className={classes["approve-btn"]}

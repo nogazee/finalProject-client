@@ -1,6 +1,7 @@
 import type IRequest from "../../../types/requestType";
 import TdExpand from "./TdExpand";
 import StatusActions from "../manage-requests/StatusActions";
+import classes from "./RequestItem.module.css";
 
 export interface RequestItemProps {
   request: IRequest;
@@ -27,7 +28,9 @@ const RequestItem = (props: RequestItemProps) => {
       <td>{title}</td>
       <TdExpand text={description}></TdExpand>
       <td>{date}</td>
-      <td>{status}</td>
+      <td className={classes.status}>
+        <div className={classes[`${status.toLowerCase()}`]}>{status}</div>
+      </td>
       {props.manage ? (
         <td>
           {(status === "PENDING" && <StatusActions reqId={_id} />) ||

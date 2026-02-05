@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../store/auth-context";
 import { getRequests } from "../../../lib/api";
 import RequestItem from "./RequestItem";
@@ -17,6 +18,7 @@ interface RequestsTableProps {
 
 const RequestsTable: React.FC<RequestsTableProps> = (props) => {
   const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [requests, setRequests] = useState<IRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -45,13 +47,14 @@ const RequestsTable: React.FC<RequestsTableProps> = (props) => {
         props.manage,
       );
 
-      if (data.requests) {
+      if (error) {
+        setError(error);
+      } else {
         setRequests(data.requests);
+        setTotalPages(Math.ceil(data.documentCount / props.resultsPerPage));
       }
 
-      setError(error);
       setIsLoading(false);
-      setTotalPages(Math.ceil(data.documentCount / props.resultsPerPage));
     };
 
     loadRequests();
@@ -59,55 +62,67 @@ const RequestsTable: React.FC<RequestsTableProps> = (props) => {
 
   return (
     <>
-      {!props.manage && (
-        <Button className={classes.btn} onClick={props.onNewReq}>
-          + Add Request
-        </Button>
+      {error ? (
+        <Card>{error}</Card>
+      ) : (
+        <>
+          {!props.manage && (
+            <Button className={classes.btn} onClick={props.onNewReq}>
+              + Add Request
+            </Button>
+          )}
+          <Card
+            className={`${classes.card} ${props.manage ? classes.wide : ""}`}
+          >
+            {props.manage && requests.length > 5 && (
+              <Pagination
+                pageNumber={pageNumber}
+                totalPages={totalPages}
+                onPageChange={pageChangeHandler}
+              />
+            )}
+            {isLoading ? (
+              "Loading..."
+            ) : requests.length === 0 ? (
+              props.manage ? (
+                "No results found"
+              ) : (
+                "There are no requests yet, add a new one."
+              )
+            ) : (
+              <table>
+                <thead>
+                  <tr>
+                    {props.manage && <th>Requestor</th>}
+                    <th>Type</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {requests.map((request, index) => (
+                    <RequestItem
+                      request={request}
+                      manage={props.manage}
+                      key={index}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            )}
+            {requests.length > 0 && (
+              <Pagination
+                pageNumber={pageNumber}
+                totalPages={totalPages}
+                onPageChange={pageChangeHandler}
+              />
+            )}
+          </Card>
+        </>
       )}
-      <Card className={`${classes.card} ${props.manage ? classes.wide : ""}`}>
-        {props.manage && requests.length > 5 && (
-          <Pagination
-            pageNumber={pageNumber}
-            totalPages={totalPages}
-            onPageChange={pageChangeHandler}
-          />
-        )}
-        {isLoading ? (
-          "Loading..."
-        ) : requests.length === 0 ? (
-          "No requests"
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                {props.manage && <th>Requestor</th>}
-                <th>Type</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Created At</th>
-                <th>Status</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((request, index) => (
-                <RequestItem
-                  request={request}
-                  manage={props.manage}
-                  key={index}
-                />
-              ))}
-            </tbody>
-          </table>
-        )}
-        {requests.length > 0 && (
-          <Pagination
-            pageNumber={pageNumber}
-            totalPages={totalPages}
-            onPageChange={pageChangeHandler}
-          />
-        )}
-      </Card>
     </>
   );
 };
