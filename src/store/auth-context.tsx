@@ -15,6 +15,9 @@ interface IAuthContext {
   isLoggedIn: boolean;
   login: (token: string, expirationTime: string) => void;
   logout: () => void;
+
+  setRefetch: () => void;
+  refetch: boolean;
 }
 
 const AuthContext = React.createContext<IAuthContext>({
@@ -23,6 +26,9 @@ const AuthContext = React.createContext<IAuthContext>({
   isLoggedIn: false,
   login: (token, expirationTime) => {},
   logout: () => {},
+
+  setRefetch: () => {},
+  refetch: false,
 });
 
 const calculateRemainingTime = (expirationTime: string) => {
@@ -54,6 +60,8 @@ const retrieveStoredToken = () => {
 };
 
 export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
+  const [refetch, setRefetch] = useState(false);
+
   const tokenData = retrieveStoredToken();
   let initialRole: "USER" | "ADMIN" = "USER";
   let initialToken;
@@ -103,6 +111,12 @@ export const AuthContextProvider: React.FC<PropsWithChildren> = (props) => {
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+
+    setRefetch: () =>
+      setRefetch((prevState) => {
+        return !prevState;
+      }),
+    refetch: refetch,
   };
 
   return (

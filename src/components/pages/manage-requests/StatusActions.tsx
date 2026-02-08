@@ -20,9 +20,11 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
       status: "APPROVED",
     });
 
-    if (error) {
-      setError(error);
+    if (data) {
+      authCtx.setRefetch();
     }
+
+    setError(error);
   };
 
   const rejectClickHandler = async () => {
@@ -35,9 +37,12 @@ const StatusActions: React.FC<{ reqId: string }> = (props) => {
       comment: rejectionComment,
     });
 
-    if (!error) {
+    if (data) {
       changeDisplayHandler();
+      authCtx.setRefetch();
     }
+
+    setError(error);
   };
 
   return (

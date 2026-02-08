@@ -30,7 +30,6 @@ const AddRequest: React.FC<{
     hasError: titleHasError,
     valueChangeHandler: titleChangeHandler,
     inputBlurHandler: titleBlurHandler,
-    reset: titleReset,
   } = useInput(valueValidator);
 
   const {
@@ -39,7 +38,6 @@ const AddRequest: React.FC<{
     hasError: descriptionHasError,
     valueChangeHandler: descriptionChangeHandler,
     inputBlurHandler: descriptionBlurHandler,
-    reset: descriptionReset,
   } = useInput(valueValidator);
 
   const typeChangeHandler = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -63,12 +61,6 @@ const AddRequest: React.FC<{
     };
 
     props.onSubmit(reqData);
-  };
-
-  const resetForm = () => {
-    setSelectedType("");
-    titleReset();
-    descriptionReset();
   };
 
   return (
@@ -131,7 +123,10 @@ const AddRequestOverlay: React.FC<{
         portalElement,
       )}
       {ReactDOM.createPortal(
-        <AddRequest closeOverlay={props.closeOverlay} onSubmit={props.onSubmit}/>,
+        <AddRequest
+          closeOverlay={props.closeOverlay}
+          onSubmit={props.onSubmit}
+        />,
         portalElement,
       )}
     </>

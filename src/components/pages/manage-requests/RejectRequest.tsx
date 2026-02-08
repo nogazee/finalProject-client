@@ -23,7 +23,6 @@ const RejectRequest: React.FC<{
     hasError: rejectionCommentHasError,
     valueChangeHandler: rejectionCommentChangeHandler,
     inputBlurHandler: rejectionCommentBlurHandler,
-    reset: rejectionCommentReset,
   } = useInput(valueValidator);
 
   const formIsValid = rejectionCommentIsValid;

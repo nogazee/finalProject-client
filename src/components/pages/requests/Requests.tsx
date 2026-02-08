@@ -8,6 +8,7 @@ const Requests = () => {
   const authCtx = useContext(AuthContext);
 
   const [addReqDisplay, setAddReqDisplay] = useState(false);
+  const [error, setError] = useState(false);
 
   const changeDisplayHandler = () => {
     setAddReqDisplay((prevState: boolean) => !prevState);
@@ -20,13 +21,17 @@ const Requests = () => {
   }) => {
     const { data, error } = await createNewRequest(authCtx.token, reqData);
 
-    if (!error) {
+    if (data) {
       changeDisplayHandler();
+      authCtx.setRefetch();
     }
+
+    setError(error);
   };
 
   return (
     <>
+      {error && <p>{error}</p>}
       {addReqDisplay && (
         <AddRequestOverlay
           onSubmit={submitHandler}

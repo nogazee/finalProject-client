@@ -7,7 +7,6 @@ import Card from "../../UI/Card";
 import Button from "../../UI/Button";
 import EditField from "./EditField";
 import classes from "./Profile.module.css";
-import { jwtDecode } from "jwt-decode";
 
 const nameValidator = (value: string) => value.trim() !== "";
 const personalNumValidator = (value: string) => value.trim().length === 7;
@@ -61,6 +60,7 @@ const Profile = () => {
         emailSetValue(fetchedUser.email);
         personalNumSetValue(fetchedUser.personalNumber.toString());
       }
+
       setError(error);
       setIsLoading(false);
     };
@@ -96,7 +96,7 @@ const Profile = () => {
 
   return (
     <Card className={classes.card}>
-      {isLoading && <p>Loading...</p>}
+      {error ? <p>{error}</p> : isLoading && <p>Loading...</p>}
       {userData && (
         <div className={classes.profile}>
           <EditField

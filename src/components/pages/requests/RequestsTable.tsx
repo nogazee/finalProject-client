@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "../../../store/auth-context";
 import { getRequests } from "../../../lib/api";
 import RequestItem from "./RequestItem";
@@ -18,11 +17,12 @@ interface RequestsTableProps {
 
 const RequestsTable: React.FC<RequestsTableProps> = (props) => {
   const authCtx = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [requests, setRequests] = useState<IRequest[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>();
+
+  const [sortOrder, setSortOrder] = useState("asc");
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
@@ -30,6 +30,7 @@ const RequestsTable: React.FC<RequestsTableProps> = (props) => {
     new URLSearchParams({
       resultsPerPage: props.resultsPerPage.toString(),
       pageNumber: pageNumber.toString(),
+      sortOrder: sortOrder,
     }).toString() + props.filters;
 
   const pageChangeHandler = (pageNumber: number) => {
@@ -47,18 +48,18 @@ const RequestsTable: React.FC<RequestsTableProps> = (props) => {
         props.manage,
       );
 
-      if (error) {
-        setError(error);
-      } else {
+      if (data) {
         setRequests(data.requests);
         setTotalPages(Math.ceil(data.documentCount / props.resultsPerPage));
       }
+
+      setError(error);
 
       setIsLoading(false);
     };
 
     loadRequests();
-  }, [pageNumber, params]);
+  }, [pageNumber, params, authCtx.refetch]);
 
   return (
     <>
@@ -90,28 +91,40 @@ const RequestsTable: React.FC<RequestsTableProps> = (props) => {
                 "There are no requests yet, add a new one."
               )
             ) : (
-              <table>
-                <thead>
-                  <tr>
-                    {props.manage && <th>Requestor</th>}
-                    <th>Type</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Created At</th>
-                    <th>Status</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {requests.map((request, index) => (
-                    <RequestItem
-                      request={request}
-                      manage={props.manage}
-                      key={index}
-                    />
-                  ))}
-                </tbody>
-              </table>
+              <>
+                <Button
+                  className={classes.sortOrderBtn}
+                  onClick={() => {
+                    setSortOrder((prevState) =>
+                      prevState === "desc" ? "asc" : "desc",
+                    );
+                  }}
+                >
+                  ↑↓
+                </Button>
+                <table>
+                  <thead>
+                    <tr>
+                      {props.manage && <th>Requestor</th>}
+                      <th>Type</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Created At</th>
+                      <th>Status</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {requests.map((request, index) => (
+                      <RequestItem
+                        request={request}
+                        manage={props.manage}
+                        key={index}
+                      />
+                    ))}
+                  </tbody>
+                </table>
+              </>
             )}
             {requests.length > 0 && (
               <Pagination

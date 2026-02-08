@@ -16,29 +16,35 @@ function App() {
     <Layout>
       <Routes>
         <Route path="/login" element={<AuthForm />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/requests" element={<Requests />} />
-        <Route
-          path="/manage/history"
-          element={
-            authCtx.userRole === "ADMIN" ? (
-              <RequestsHistory />
-            ) : (
-              <Navigate to="/requests" />
-            )
-          }
-        />
-        <Route
-          path="/manage/pending"
-          element={
-            authCtx.userRole === "ADMIN" ? (
-              <PendingRequests />
-            ) : (
-              <Navigate to="/requests" />
-            )
-          }
-        />
-        <Route path="*" element={<Navigate to="/requests" />} />
+        {authCtx.token ? (
+          <>
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/requests" element={<Requests />} />
+            <Route
+              path="/manage/history"
+              element={
+                authCtx.userRole === "ADMIN" ? (
+                  <RequestsHistory />
+                ) : (
+                  <Navigate to="/requests" />
+                )
+              }
+            />
+            <Route
+              path="/manage/pending"
+              element={
+                authCtx.userRole === "ADMIN" ? (
+                  <PendingRequests />
+                ) : (
+                  <Navigate to="/requests" />
+                )
+              }
+            />
+            <Route path="*" element={<Navigate to="/requests" />} />
+          </>
+        ) : (
+          <Route path="*" element={<Navigate to="/login" />} />
+        )}
       </Routes>
     </Layout>
   );

@@ -89,9 +89,9 @@ const AuthForm = () => {
       authCtx.login(data.token, expirationTime.toISOString());
       navigate("/requests", { replace: true });
       resetForm();
-    } else {
-      setError(error);
     }
+    
+    setError(error);
   };
 
   const resetForm = () => {
